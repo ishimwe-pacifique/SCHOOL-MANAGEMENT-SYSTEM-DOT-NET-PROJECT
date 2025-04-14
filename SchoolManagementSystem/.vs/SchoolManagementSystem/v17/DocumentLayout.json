@@ -1,0 +1,190 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\.NETProjects\\SchoolManagementSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\pages\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\pages\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\pages\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\pages\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\data\\schooldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\data\\schooldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\pages\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\pages\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\wwwroot\\css\\register.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\wwwroot\\css\\register.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|d:\\.netprojects\\schoolmanagementsystem\\schoolmanagementsystem\\pages\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8895450-EF23-4010-AE09-470506CFA79E}|SchoolManagementSystem\\SchoolManagementSystem.csproj|solutionrelative:schoolmanagementsystem\\pages\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.cshtml.cs",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Login.cshtml.cs",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\Pages\\Login.cshtml.cs",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Login.cshtml.cs",
+              "RelativeToolTip": "SchoolManagementSystem\\Pages\\Login.cshtml.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAuwEEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T10:30:29.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\appsettings.json",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\appsettings.json",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\appsettings.json",
+              "RelativeToolTip": "SchoolManagementSystem\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAB/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-14T10:05:32.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Models\\User.cs",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\Models\\User.cs",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Models\\User.cs",
+              "RelativeToolTip": "SchoolManagementSystem\\Models\\User.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T09:48:45.508Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SchoolDbContext.cs",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Data\\SchoolDbContext.cs",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\Data\\SchoolDbContext.cs",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Data\\SchoolDbContext.cs",
+              "RelativeToolTip": "SchoolManagementSystem\\Data\\SchoolDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T09:30:28.7Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Program.cs",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\Program.cs",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Program.cs",
+              "RelativeToolTip": "SchoolManagementSystem\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-14T09:04:21.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Login.cshtml",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\Pages\\Login.cshtml",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Login.cshtml",
+              "RelativeToolTip": "SchoolManagementSystem\\Pages\\Login.cshtml",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAAAGwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-14T07:56:37.525Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\Pages\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "SchoolManagementSystem\\Pages\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-13T21:39:12.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Register.cshtml.cs",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Register.cshtml.cs",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\Pages\\Register.cshtml.cs",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Register.cshtml.cs",
+              "RelativeToolTip": "SchoolManagementSystem\\Pages\\Register.cshtml.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAAAE8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T20:51:45.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "register.css",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\wwwroot\\css\\register.css",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\wwwroot\\css\\register.css",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\wwwroot\\css\\register.css",
+              "RelativeToolTip": "SchoolManagementSystem\\wwwroot\\css\\register.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-04-13T20:42:36.897Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Register.cshtml",
+              "RelativeDocumentMoniker": "SchoolManagementSystem\\Pages\\Register.cshtml",
+              "ToolTip": "D:\\.NETProjects\\SchoolManagementSystem\\SchoolManagementSystem\\Pages\\Register.cshtml",
+              "RelativeToolTip": "SchoolManagementSystem\\Pages\\Register.cshtml",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAAAHAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-13T20:05:02.453Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

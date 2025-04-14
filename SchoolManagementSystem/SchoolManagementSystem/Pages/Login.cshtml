@@ -1,0 +1,115 @@
+﻿@page
+@model SchoolManagementSystem.Pages.LoginModel
+@{
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <style>
+        .login-background {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        .image-panel {
+            flex: 1;
+            background: url('/images/register.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .form-panel {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f9fc;
+            padding: 40px;
+        }
+
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%; /* Increase the width to make the button longer */
+        }
+
+            button:hover {
+                background-color: #218838;
+            }
+    </style>
+}
+
+<div class="login-background">
+    <div class="image-panel"></div>
+
+    <div class="form-panel">
+        <div class="login-container">
+            @if (!string.IsNullOrEmpty(Model.WelcomeMessage))
+            {
+                <h2>@Model.WelcomeMessage</h2>
+            }
+            else
+            {
+            <h2>Login</h2>
+            <p>Access your dashboard</p>
+
+            <form method="post">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Login as</label>
+                    <select id="role" name="role" required>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p style="margin-top: 15px;">Don't have an account? <a href="/Register">Register</a></p>
+            }
+        </div>
+    </div>
+</div>
+
+
+
