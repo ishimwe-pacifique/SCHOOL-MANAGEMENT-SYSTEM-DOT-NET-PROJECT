@@ -1,0 +1,668 @@
+﻿@page
+@model School_Management_System.Pages.AdminDashboardModel
+@{
+
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = null; // This sets which layout file to use
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --secondary: #10b981;
+            --secondary-light: #d1fae5;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --dark: #111827;
+            --light: #f9fafb;
+            --grey: #6b7280;
+            --grey-light: #f3f4f6;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: white;
+            box-shadow: var(--shadow);
+            z-index: 10;
+            transition: var(--transition);
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--grey-light);
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-logo {
+            color: var(--primary);
+            font-size: 1.75rem;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+            .nav-item:hover {
+                background-color: var(--grey-light);
+                border-left-color: var(--primary);
+            }
+
+            .nav-item.active {
+                background-color: var(--primary-light);
+                border-left-color: var(--primary);
+            }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--grey);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+        }
+
+        .nav-item.active .nav-link {
+            color: var(--primary);
+        }
+
+        .nav-item:hover .nav-link {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            width: 1.5rem;
+            text-align: center;
+        }
+
+        .content {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 280px;
+            transition: var(--transition);
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .main-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-subtitle {
+            color: var(--grey);
+            font-size: 1rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+            border-top: 5px solid var(--primary);
+            animation: fadeIn 0.6s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .card.card-subjects {
+                border-top-color: var(--info);
+            }
+
+            .card.card-teachers {
+                border-top-color: var(--success);
+            }
+
+            .card.card-students {
+                border-top-color: var(--warning);
+            }
+
+            .card.card-fees {
+                border-top-color: var(--danger);
+            }
+
+            .card.card-marks {
+                border-top-color: var(--secondary);
+            }
+
+            .card.card-attendance {
+                border-top-color: var(--primary);
+            }
+
+            .card.card-reports {
+                border-top-color: var(--info);
+            }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+        }
+
+        .card-classes .card-icon {
+            background-color: var(--primary);
+        }
+
+        .card-subjects .card-icon {
+            background-color: var(--info);
+        }
+
+        .card-teachers .card-icon {
+            background-color: var(--success);
+        }
+
+        .card-students .card-icon {
+            background-color: var(--warning);
+        }
+
+        .card-fees .card-icon {
+            background-color: var(--danger);
+        }
+
+        .card-marks .card-icon {
+            background-color: var(--secondary);
+        }
+
+        .card-attendance .card-icon {
+            background-color: var(--primary);
+        }
+
+        .card-reports .card-icon {
+            background-color: var(--info);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-description {
+            color: var(--grey);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+
+            .btn:hover {
+                background-color: #4338ca;
+                transform: translateY(-2px);
+                box-shadow: var(--shadow);
+            }
+
+        .btn-classes {
+            background-color: var(--primary);
+        }
+
+        .btn-subjects {
+            background-color: var(--info);
+        }
+
+        .btn-teachers {
+            background-color: var(--success);
+        }
+
+        .btn-students {
+            background-color: var(--warning);
+        }
+
+        .btn-fees {
+            background-color: var(--danger);
+        }
+
+        .btn-marks {
+            background-color: var(--secondary);
+        }
+
+        .btn-attendance {
+            background-color: var(--primary);
+        }
+
+        .btn-reports {
+            background-color: var(--info);
+        }
+
+        .btn-logout {
+            background-color: var(--grey-light);
+            color: var(--dark);
+            margin-top: 1rem;
+        }
+
+            .btn-logout:hover {
+                background-color: var(--grey);
+                color: white;
+            }
+
+        .logout-wrapper {
+            padding: 0 1.5rem;
+            margin-top: auto;
+        }
+
+        .nav-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 1.5rem;
+            border-top: 1px solid var(--grey-light);
+        }
+
+        .toggle-sidebar {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 20;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive design */
+        @@media (max-width: 991px) {
+            .sidebar {
+                width: 240px;
+                transform: translateX(-100%);
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .toggle-sidebar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .content.sidebar-active {
+                margin-left: 240px;
+            }
+        }
+
+        @@media (max-width: 767px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 1.5rem;
+            }
+
+                .content.sidebar-active {
+                    margin-left: 0;
+                    opacity: 0.5;
+                    pointer-events: none;
+                }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <button class="toggle-sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">
+                    <i class="fas fa-graduation-cap sidebar-logo"></i>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-item active">
+                    <a asp-page="/AdminDashboard" class="nav-link">
+                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a asp-page="/ClassManagment" class="nav-link">
+                        <i class="fas fa-chalkboard nav-icon"></i>
+                        <span>Manage Classes</span>
+                    </a>
+               </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-book nav-icon"></i>
+                        <span>Manage Subjects</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="manageteachers.html" class="nav-link">
+                        <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                        <span>Manage Teachers</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="manage students.html" class="nav-link">
+                        <i class="fas fa-user-graduate nav-icon"></i>
+                        <span>Manage Students</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-money-bill-wave nav-icon"></i>
+                        <span>Manage Fees</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-graduation-cap nav-icon"></i>
+                        <span>Exam Marks</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-clipboard-check nav-icon"></i>
+                        <span>Teacher Attendance</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-bar nav-icon"></i>
+                        <span>View Reports</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="nav-footer">
+                <a href="#" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div class="content-header">
+                <h1 class="main-title">Admin Dashboard</h1>
+                <p class="main-subtitle">Manage your school operations with ease</p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card card-classes">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chalkboard"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Manage Classes</h3>
+                        </div>
+                    </div>
+                    <p class="card-description">Add, update, and delete classes with ease</p>
+                    <a href="addclass.html" class="btn btn-classes">Go to Manage Classes</a>
+                </div>
+
+                <div class="card card-subjects">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Manage Subjects</h3>
+                        </div>
+                    </div>
+                    <p class="card-description">Add, update, and delete subjects</p>
+                    <a href="#" class="btn btn-subjects">Go to Manage Subjects</a>
+                </div>
+
+                <div class="card card-teachers">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Manage Teachers</h3>
+                        </div>
+                    </div>
+                    <p class="card-description">Add, update, and remove teachers</p>
+                    <a href="manageteachers.html" class="btn btn-teachers">Go to Manage Teachers</a>
+                </div>
+
+                <div class="card card-students">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Manage Students</h3>
+                        </div>
+                    </div>
+                    <p class="card-description">Add and update student records</p>
+                    <a href="manage students.html" class="btn btn-students">Go to Manage Students</a>
+                </div>
+
+                <div class="card card-fees">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Manage Fees</h3>
+                        </div>
+                    </div>
+                    <p class="card-description">Set class and lecture fees</p>
+                    <a href="#" class="btn btn-fees">Go to Manage Fees</a>
+                </div>
+
+                <div class="card card-marks">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Exam Marks</h3>
+                        </div>
+                    </div>
+                    <p class="card-description">Add and update student marks</p>
+                    <a href="#" class="btn btn-marks">Go to Exam Marks</a>
+                </div>
+
+                <div class="card card-attendance">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Teacher Attendance</h3>
+                        </div>
+                    </div>
+                    <p class="card-description">Mark teacher attendance</p>
+                    <a href="#" class="btn btn-attendance">Go to Teacher Attendance</a>
+                </div>
+
+                <div class="card card-reports">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">View Reports</h3>
+                        </div>
+                    </div>
+                    <p class="card-description">View attendance & exam reports</p>
+                    <a href="#" class="btn btn-reports">Go to View Reports</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add staggered animation to cards
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+
+      // Toggle sidebar
+      const toggleButton = document.querySelector('.toggle-sidebar');
+      const sidebar = document.querySelector('.sidebar');
+      const content = document.querySelector('.content');
+
+      toggleButton.addEventListener('click', function() {
+        sidebar.classList.toggle('active');
+        content.classList.toggle('sidebar-active');
+      });
+
+      // Active menu item
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => {
+        item.addEventListener('click', function() {
+          navItems.forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // Add hover effect to cards
+      cards.forEach(card => {
+        card.addEventListener('mouseover', function() {
+          this.classList.add('pulse');
+        });
+
+        card.addEventListener('mouseout', function() {
+          this.classList.remove('pulse');
+        });
+      });
+    });
+    </script>
+</body>
+</html>
