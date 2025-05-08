@@ -1,0 +1,148 @@
+﻿@page
+@model SCHOOLMGTSYSTEM.Pages.MarkStudentAttendanceModel
+@{
+    ViewData["Title"] = "Mark Student Attendance";
+}
+
+<div class="container-fluid p-0">
+    <div class="row m-0">
+        <!-- Left Sidebar -->
+        <div class="col-md-3 col-lg-2 bg-light p-0 border-end" style="min-height: 100vh;">
+            <div class="p-3 border-bottom">
+                <h5 class="fw-bold">
+                    <i class="bi bi-calendar3"></i> Teacher Portal
+                </h5>
+            </div>
+            <div class="list-group list-group-flush">
+                <a asp-page="/TeacherDashboard" class="list-group-item list-group-item-action">
+                    <i class="bi bi-house-door me-2"></i> Dashboard
+                </a>
+                <a asp-page="/MarkStudentAttendance" class="list-group-item list-group-item-action bg-light">
+                    <i class="bi bi-calendar-check me-2"></i> Mark Student Attendance
+                </a>
+                <a asp-page="/ViewAttendanceReports" class="list-group-item list-group-item-action">
+                    <i class="bi bi-file-earmark-text me-2"></i> View Attendance Reports
+                </a>
+                <a asp-page="/ViewExamMarks" class="list-group-item list-group-item-action">
+                    <i class="bi bi-file-earmark-bar-graph me-2"></i> View Exam Marks
+                </a>
+            </div>
+            <div class="mt-auto p-3 border-top" style="position: absolute; bottom: 0; width: 100%;">
+                <a asp-page="/Index" class="btn btn-outline-secondary w-100">
+                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="col-md-9 col-lg-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2 class="mb-1">Mark Student Attendance</h2>
+                    <p class="text-muted">Take daily attendance for your classes</p>
+                </div>
+                <div>
+                    <a asp-page="/TeacherDashboard" class="btn btn-outline-secondary">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <!-- Attendance Form -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Select Class and Date</h5>
+
+                    <form method="post">
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="classSelect" class="form-label">Class</label>
+                                <select class="form-select" id="classSelect" asp-for="SelectedClassId">
+                                    <option selected>Select class</option>
+                                    @foreach (var cls in Model.Classes)
+                                    {
+                                        <option value="@cls.Id">@cls.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="attendanceDate" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="attendanceDate" asp-for="AttendanceDate" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-dark" asp-page-handler="LoadStudents">
+                                Load Students
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            @if (Model.StudentsLoaded)
+            {
+                <div class="card border-0 shadow-sm mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Mark Attendance</h5>
+                        <form method="post">
+                            <input type="hidden" asp-for="SelectedClassId" />
+                            <input type="hidden" asp-for="AttendanceDate" />
+
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Roll No</th>
+                                            <th>Student Name</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Students.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>@Model.Students[i].RollNumber</td>
+                                                <td>@Model.Students[i].FullName</td>
+                                                <td>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="Attendance[@i].Status"
+                                                               id="present_@i"
+                                                               value="Present"
+                                                               checked>
+                                                        <label class="form-check-label" for="present_@i">Present</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio"
+                                                               name="Attendance[@i].Status"
+                                                               id="absent_@i"
+                                                               value="Absent">
+                                                        <label class="form-check-label" for="absent_@i">Absent</label>
+                                                    </div>
+                                                    <input type="hidden" name="Attendance[@i].StudentId" value="@Model.Students[i].Id" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-success" asp-page-handler="SaveAttendance">
+                                    <i class="bi bi-check-circle me-2"></i> Save Attendance
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // You can add JavaScript functionality here if needed
+        });
+    </script>
+}
