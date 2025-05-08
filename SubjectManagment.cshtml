@@ -1,4 +1,3 @@
-﻿
 @page
 @model School_Management_System.Pages.SubjectManagementModel
 @{
@@ -389,6 +388,8 @@
                 flex-direction: column;
             }
         }
+
+       
     </style>
 </head>
 <body>
@@ -407,13 +408,13 @@
 
             <nav class="nav-menu">
                 <div class="nav-item">
-                    <a href="/AdminDashboard" class="nav-link">
-                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                    <a asp-page="/AdminDashboard" class="nav-link">
+                        <i class="fas fa-chalkboard nav-icon"></i>
                         <span>Dashboard</span>
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a href="/ClassManagement" class="nav-link">
+                    <a asp-page="/ClassManagment" class="nav-link">
                         <i class="fas fa-chalkboard nav-icon"></i>
                         <span>Manage Classes</span>
                     </a>
@@ -467,6 +468,7 @@
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
+
         </aside>
 
         <main class="content">
@@ -503,11 +505,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Subject.ClassLevelID" class="form-label">Class Level</label>
-                        <select asp-for="Subject.ClassLevelID" class="form-control" asp-items="Model.ClassLevels">
-                            <option value="">Select class level</option>
+                        <label asp-for="Subject.ClassID" class="form-label">Class</label>
+                        <select asp-for="Subject.ClassID" class="form-control" asp-items="Model.AvailableClasses">
+                            <option value="">Select class</option>
                         </select>
-                        <span asp-validation-for="Subject.ClassLevelID" class="text-danger"></span>
+                        <span asp-validation-for="Subject.ClassID" class="text-danger"></span>
                     </div>
 
                     <button type="submit" class="btn btn-success">
@@ -523,7 +525,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Code</th>
-                            <th>Class Level</th>
+                            <th>Class</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -535,11 +537,11 @@
                                 <td>@subject.SubjectCode</td>
                                 <td>@subject.ClassName</td>
                                 <td class="actions">
-                                    <button class="btn btn-secondary btn-sm edit-btn" 
+                                    <button class="btn btn-secondary btn-sm edit-btn"
                                             data-id="@subject.SubjectID"
                                             data-name="@subject.SubjectName"
                                             data-code="@subject.SubjectCode"
-                                            data-classlevelid="@subject.ClassLevelID">
+                                            data-classid="@subject.ClassID">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
                                     <form method="post" asp-page-handler="DeleteSubject" asp-route-subjectId="@subject.SubjectID" style="display: inline;">
@@ -574,11 +576,11 @@
                                     <input type="text" class="form-control" id="editSubjectCode" name="subjectCode" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="editClassLevelID" class="form-label">Class Level</label>
-                                    <select id="editClassLevelID" name="classLevelId" class="form-control" required>
-                                        @foreach (var level in Model.ClassLevels)
+                                    <label for="editClassID" class="form-label">Class</label>
+                                    <select id="editClassID" name="classId" class="form-control" required>
+                                        @foreach (var cls in Model.AvailableClasses)
                                         {
-                                            <option value="@level.Value">@level.Text</option>
+                                            <option value="@cls.Value">@cls.Text</option>
                                         }
                                     </select>
                                 </div>
@@ -605,12 +607,12 @@
                 var id = $(this).data('id');
                 var name = $(this).data('name');
                 var code = $(this).data('code');
-                var classLevelId = $(this).data('classlevelid');
+                var classId = $(this).data('classid');
 
                 $('#editSubjectId').val(id);
                 $('#editSubjectName').val(name);
                 $('#editSubjectCode').val(code);
-                $('#editClassLevelID').val(classLevelId);
+                $('#editClassID').val(classId);
 
                 var editModal = new bootstrap.Modal(document.getElementById('editModal'));
                 editModal.show();
