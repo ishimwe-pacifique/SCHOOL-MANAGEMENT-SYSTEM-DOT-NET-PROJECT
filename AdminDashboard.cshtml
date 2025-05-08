@@ -3,7 +3,7 @@
 @{
 
     ViewData["Title"] = "Admin Dashboard";
-    Layout = null; // This sets which layout file to use
+    Layout = "_Layout"; // This sets which layout file to use
 
 }
 <!DOCTYPE html>
@@ -505,9 +505,11 @@
             </nav>
 
             <div class="nav-footer">
-                <a href="#" class="btn btn-logout">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
+                <form method="post" asp-page="/Logout">
+                    <button type="submit" class="btn btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </form>
             </div>
         </aside>
 
@@ -529,6 +531,10 @@
                     </div>
                     <p class="card-description">Add, update, and delete classes with ease</p>
                     <a href="addclass.html" class="btn btn-classes">Go to Manage Classes</a>
+                    <a asp-page="/ClassManagment" class="nav-link">
+                        <i class="fas fa-chalkboard nav-icon"></i>
+                        <span>Manage Classes</span>
+                    </a>
                 </div>
 
                 <div class="card card-subjects">
