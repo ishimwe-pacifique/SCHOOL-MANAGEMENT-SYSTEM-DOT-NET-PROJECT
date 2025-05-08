@@ -1,0 +1,120 @@
+﻿@page
+@model School_Management_System.Pages.RegisterModel
+
+@{
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <style>
+        .register-background {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Left panel with image */
+        .image-panel {
+            flex: 1;
+            background: url('/images/register.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Right panel with form */
+        .form-panel {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f9fc;
+            padding: 40px;
+        }
+
+        .register-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%; /* Increase the width to make the button longer */
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+}
+
+
+<div class="register-background">
+    <div class="image-panel"></div>
+
+    <div class="form-panel">
+        <div class="register-container">
+            <h2>Create an Account</h2>
+            <p>Enter your details to sign up</p>
+
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="John Doe" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                
+
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <p style="margin-top: 15px;">Already have an account? <a href="/Login">Login</a></p>
+        </div>
+    </div>
+</div>
+
+
