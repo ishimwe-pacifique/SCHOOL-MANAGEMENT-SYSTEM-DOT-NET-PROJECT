@@ -24,7 +24,7 @@ namespace School_Management_System.Pages
         public string SuccessMessage { get; set; }
         public string ErrorMessage { get; set; }
 
-        private readonly string _connectionString = "Data Source=DESKTOP-U1827CH\\SQLEXPRESS;Initial Catalog=SchoolSystem;Integrated Security=True;TrustServerCertificate=True";
+        private readonly string _connectionString = "Data Source=DESKTOP-U1827CH\\SQLEXPRESS;Initial Catalog=SchoolSysDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
 
         public async Task OnGetAsync()
         {
@@ -69,6 +69,7 @@ namespace School_Management_System.Pages
                 return Page();
             }
         }
+
         public async Task<IActionResult> OnPostEditAsync(int classId, string className, string section, int capacity)
         {
             if (!ModelState.IsValid)
@@ -83,11 +84,11 @@ namespace School_Management_System.Pages
                 {
                     await connection.OpenAsync();
                     var query = @"UPDATE Classes 
-                        SET ClassName = @ClassName, 
-                            Section = @Section, 
-                            Capacity = @Capacity,
-                            ModifiedDate = GETDATE()
-                        WHERE ClassID = @ClassID";
+                                SET ClassName = @ClassName, 
+                                    Section = @Section, 
+                                    Capacity = @Capacity,
+                                    ModifiedDate = GETDATE()
+                                WHERE ClassID = @ClassID";
 
                     using (var command = new SqlCommand(query, connection))
                     {
