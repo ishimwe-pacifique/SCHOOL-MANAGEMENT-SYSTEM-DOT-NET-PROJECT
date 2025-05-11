@@ -1,0 +1,685 @@
+﻿@page
+@model School_Management_System.Pages.StudentManagementModel
+@{
+
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Teacher Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --secondary: #10b981;
+            --secondary-light: #d1fae5;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --dark: #111827;
+            --light: #f9fafb;
+            --grey: #6b7280;
+            --grey-light: #f3f4f6;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: white;
+            box-shadow: var(--shadow);
+            z-index: 10;
+            transition: var(--transition);
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--grey-light);
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-logo {
+            color: var(--primary);
+            font-size: 1.75rem;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+            .nav-item:hover {
+                background-color: var(--grey-light);
+                border-left-color: var(--primary);
+            }
+
+            .nav-item.active {
+                background-color: var(--primary-light);
+                border-left-color: var(--primary);
+            }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--grey);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+        }
+
+        .nav-item.active .nav-link {
+            color: var(--primary);
+        }
+
+        .nav-item:hover .nav-link {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            width: 1.5rem;
+            text-align: center;
+        }
+
+        .content {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 280px;
+            transition: var(--transition);
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .main-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-subtitle {
+            color: var(--grey);
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+            .btn:hover {
+                background-color: #4338ca;
+                transform: translateY(-2px);
+                box-shadow: var(--shadow);
+            }
+
+        .btn-secondary {
+            background-color: var(--grey-light);
+            color: var(--dark);
+        }
+
+            .btn-secondary:hover {
+                background-color: var(--grey);
+                color: white;
+            }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+            .btn-danger:hover {
+                background-color: #dc2626;
+            }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+            .btn-success:hover {
+                background-color: #0d9488;
+            }
+
+        .form-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--grey-light);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px var(--primary-light);
+            }
+
+        .form-hint {
+            font-size: 0.875rem;
+            color: var(--grey);
+            margin-top: 0.25rem;
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .table-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--grey-light);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--dark);
+            background-color: var(--grey-light);
+        }
+
+        tr:hover {
+            background-color: var(--grey-light);
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .logout-wrapper {
+            padding: 0 1.5rem;
+            margin-top: auto;
+        }
+
+        .nav-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 1.5rem;
+            border-top: 1px solid var(--grey-light);
+        }
+
+        .toggle-sidebar {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 20;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        /* Modal customization */
+        .modal-content {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--grey-light);
+            padding: 1.25rem 1.5rem;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--grey-light);
+            padding: 1rem 1.5rem;
+        }
+
+        /* Responsive design */
+        @@media (max-width: 991px) {
+            .sidebar {
+                width: 240px;
+                transform: translateX(-100%);
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .toggle-sidebar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .content.sidebar-active {
+                margin-left: 240px;
+            }
+        }
+
+        @@media (max-width: 767px) {
+            .content {
+                padding: 1.5rem;
+            }
+
+                .content.sidebar-active {
+                    margin-left: 0;
+                    opacity: 0.5;
+                    pointer-events: none;
+                }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <button class="toggle-sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">
+                    <i class="fas fa-school sidebar-logo"></i>
+                    <span>Admin Panel</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a asp-page="/AdminDashboard" class="nav-link">
+                        <i class="fas fa-chalkboard nav-icon"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a asp-page="/ClassManagment" class="nav-link">
+                        <i class="fas fa-chalkboard nav-icon"></i>
+                        <span>Manage Classes</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="/SubjectManagment" class="nav-link">
+                        <i class="fas fa-book nav-icon"></i>
+                        <span>Manage Subjects</span>
+                    </a>
+                </div>
+                <div class="nav-item active">
+                    <a href="/TeachersManagement" class="nav-link">
+                        <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                        <span>Manage Teachers</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="/StudentManagement" class="nav-link">
+                        <i class="fas fa-user-graduate nav-icon"></i>
+                        <span>Manage Students</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-money-bill-wave nav-icon"></i>
+                        <span>Manage Fees</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-clipboard-list nav-icon"></i>
+                        <span>Exam Marks</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-calendar-check nav-icon"></i>
+                        <span>Teacher Attendance</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-pie nav-icon"></i>
+                        <span>View Reports</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="nav-footer">
+                <a href="/Logout" class="btn btn-secondary">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </aside>
+        <main class="content">
+            <div class="content-header">
+                <h1 class="main-title">Student Management</h1>
+                <p class="main-subtitle">Add, update, and delete students</p>
+                <a href="/AdminDashboard" class="btn btn-secondary" style="margin-top: 1rem; display: inline-block; width: auto;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+            {
+                <div class="alert alert-success">@Model.SuccessMessage</div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger">@Model.ErrorMessage</div>
+            }
+
+            <div class="form-container">
+                <h2 class="form-title">Add New Student</h2>
+                <form method="post" asp-page-handler="AddStudent">
+                    <div class="form-group">
+                        <label asp-for="Student.FullName" class="form-label">Full Name</label>
+                        <input asp-for="Student.FullName" class="form-control" placeholder="e.g., Alice Johnson">
+                        <span asp-validation-for="Student.FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Student.Email" class="form-label">Email</label>
+                        <input asp-for="Student.Email" type="email" class="form-control" placeholder="e.g., alice@school.edu">
+                        <span asp-validation-for="Student.Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Student.DateOfBirth" class="form-label">Date of Birth</label>
+                        <input asp-for="Student.DateOfBirth" type="date" class="form-control">
+                        <span asp-validation-for="Student.DateOfBirth" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Student.ClassID" class="form-label">Class</label>
+                        <select asp-for="Student.ClassID" class="form-control" asp-items="Model.Classes">
+                            <option value="">Select class</option>
+                        </select>
+                        <span asp-validation-for="Student.ClassID" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Student.ParentGuardianName" class="form-label">Parent/Guardian Name</label>
+                        <input asp-for="Student.ParentGuardianName" class="form-control" placeholder="e.g., John Johnson">
+                        <span asp-validation-for="Student.ParentGuardianName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Student.ParentGuardianPhone" class="form-label">Parent/Guardian Phone</label>
+                        <input asp-for="Student.ParentGuardianPhone" class="form-control" placeholder="e.g., +1234567890">
+                        <span asp-validation-for="Student.ParentGuardianPhone" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Student.EnrollmentDate" class="form-label">Enrollment Date</label>
+                        <input asp-for="Student.EnrollmentDate" type="date" class="form-control">
+                        <span asp-validation-for="Student.EnrollmentDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <input asp-for="Student.IsActive" class="form-check-input" />
+                        <label asp-for="Student.IsActive" class="form-check-label">Active Student</label>
+                        <span asp-validation-for="Student.IsActive" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-plus-circle"></i> Add Student
+                    </button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2 class="table-title">Student List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date of Birth</th>
+                            <th>Class</th>
+                            <th>Parent/Guardian</th>
+                            <th>Enrollment Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in Model.Students)
+                        {
+                            <tr>
+                                <td>@student.FullName</td>
+                                <td>@student.Email</td>
+                                <td>@student.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                                <td>@student.ClassName</td>
+                                <td>
+                                    @student.ParentGuardianName<br>
+                                    @student.ParentGuardianPhone
+                                </td>
+                                <td>@student.EnrollmentDate.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    <span class="badge @(student.IsActive ? "bg-success" : "bg-danger")">
+                                        @(student.IsActive ? "Active" : "Inactive")
+                                    </span>
+                                </td>
+                                <td class="actions">
+                                    <button class="btn btn-secondary btn-sm edit-btn"
+                                            data-id="@student.StudentID"
+                                            data-name="@student.FullName"
+                                            data-email="@student.Email"
+                                            data-dob="@student.DateOfBirth.ToString("yyyy-MM-dd")"
+                                            data-classid="@student.ClassID"
+                                            data-parentname="@student.ParentGuardianName"
+                                            data-parentphone="@student.ParentGuardianPhone"
+                                            data-enrollmentdate="@student.EnrollmentDate.ToString("yyyy-MM-dd")"
+                                            data-isactive="@student.IsActive">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <form method="post" asp-page-handler="DeleteStudent" asp-route-studentId="@student.StudentID" style="display: inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this student?');">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Student</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" asp-page-handler="EditStudent">
+                            <div class="modal-body">
+                                <input type="hidden" id="editStudentId" name="studentId" />
+                                <div class="form-group">
+                                    <label for="editFullName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="editFullName" name="fullName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="editEmail" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editDateOfBirth" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="editDateOfBirth" name="dateOfBirth" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editClassID" class="form-label">Class</label>
+                                    <select id="editClassID" name="classID" class="form-control" required>
+                                        @foreach (var cls in Model.Classes)
+                                        {
+                                            <option value="@cls.Value">@cls.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editParentGuardianName" class="form-label">Parent/Guardian Name</label>
+                                    <input type="text" class="form-control" id="editParentGuardianName" name="parentGuardianName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editParentGuardianPhone" class="form-label">Parent/Guardian Phone</label>
+                                    <input type="text" class="form-control" id="editParentGuardianPhone" name="parentGuardianPhone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editEnrollmentDate" class="form-label">Enrollment Date</label>
+                                    <input type="date" class="form-control" id="editEnrollmentDate" name="enrollmentDate" required>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="editIsActive" name="isActive">
+                                    <label class="form-check-label" for="editIsActive">Active Student</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Same scripts as teachers page -->
+            <script>
+                $(document).ready(function() {
+                    // Edit modal initialization
+                    $('.edit-btn').click(function() {
+                        var id = $(this).data('id');
+                        $('#editStudentId').val(id);
+                        $('#editFullName').val($(this).data('name'));
+                        $('#editEmail').val($(this).data('email'));
+                        $('#editDateOfBirth').val($(this).data('dob'));
+                        $('#editClassID').val($(this).data('classid'));
+                        $('#editParentGuardianName').val($(this).data('parentname'));
+                        $('#editParentGuardianPhone').val($(this).data('parentphone'));
+                        $('#editEnrollmentDate').val($(this).data('enrollmentdate'));
+                        $('#editIsActive').prop('checked', $(this).data('isactive') === 'True');
+
+                        new bootstrap.Modal(document.getElementById('editModal')).show();
+                    });
+
+                    // Toggle sidebar and other shared scripts
+                });
+            </script>
+        </main>
+    </div>
+</body>
+</html>
