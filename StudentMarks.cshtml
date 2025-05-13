@@ -1,0 +1,204 @@
+﻿@page "/StudentMarks"
+@model StudentMarksModel
+@{
+    ViewData["Title"] = "Student Marks Management";
+}
+
+<div class="container py-4">
+    <!-- Header with breadcrumb -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Student Marks Management</h2>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/TeacherDashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Student Marks</li>
+                </ol>
+            </nav>
+        </div>
+        <a asp-page="/AdminDashboard" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left-circle me-2"></i>Back to Dashboard
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Left column for recording marks -->
+        <div class="col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Record Student Mark</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="recordMarkForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Select Class</label>
+                            <select asp-for="SelectedClassId" asp-items="Model.ClassOptions"
+                                    class="form-select" onchange="this.form.submit()">
+                                <option value="">-- Select Class --</option>
+                            </select>
+                        </div>
+
+                        @if (Model.SelectedClassId.HasValue)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Select Student</label>
+                                <select asp-for="SelectedStudentId" asp-items="Model.StudentOptions"
+                                        class="form-select">
+                                    <option value="">-- Select Student --</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Select Subject</label>
+                                <select asp-for="SelectedSubject" asp-items="Model.SubjectOptions"
+                                        class="form-select">
+                                    <option value="">-- Select Subject --</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Mark</label>
+                                    <div class="input-group">
+                                        <input asp-for="Mark" class="form-control" type="number"
+                                               min="0" max="100" placeholder="0-100" />
+                                        <span class="input-group-text">/ 100</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Date of Exam</label>
+                                    <input asp-for="DateOfExam" class="form-control" type="date" />
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-save me-2"></i>Save Mark
+                                </button>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                        {
+                            <div class="alert alert-success mt-3 d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                @Model.SuccessMessage
+                            </div>
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right column for displaying marks -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="bi bi-table me-2"></i>Student Marks List</h4>
+                    <div class="d-flex align-items-center">
+                        <form method="post" class="d-flex align-items-center">
+                            <select asp-for="SelectedClassId" class="form-select form-select-sm me-2"
+                                    asp-items="Model.ClassOptions" onchange="this.form.submit()"
+                                    style="width: auto;" aria-label="Filter by class">
+                                <option value="">All Classes</option>
+                            </select>
+                            <button type="submit" class="btn btn-light btn-sm">
+                                <i class="bi bi-funnel-fill"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    @if (Model.StudentMarks != null && Model.StudentMarks.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Subject</th>
+                                        <th class="text-center">Mark</th>
+                                        <th>Date of Exam</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var mark in Model.StudentMarks)
+                                    {
+                                        <tr>
+                                            <td>@mark.StudentName</td>
+                                            <td>@mark.Subject</td>
+                                            <td class="text-center">
+                                                @{
+                                                    var badgeClass = mark.Mark >= 70 ? "bg-success" :
+                                                    mark.Mark >= 50 ? "bg-warning" : "bg-danger";
+                                                }
+                                                <span class="badge @badgeClass">@mark.Mark%</span>
+                                            </td>
+                                            <td>@mark.DateOfExam.ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else if (Model.SelectedClassId != null)
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-inbox fs-1 text-muted"></i>
+                            <p class="text-muted mt-2">No marks found for this class.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-filter-circle fs-1 text-muted"></i>
+                            <p class="text-muted mt-2">Please select a class to view marks.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- School Report Summary Card -->
+            <div class="card shadow-sm mt-4">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="bi bi-bar-chart-fill me-2"></i>Class Report Summary</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Summary content can be added here -->
+                    <div class="d-flex justify-content-around text-center">
+                        <div class="p-3">
+                            <h3 class="text-primary mb-0">@(Model.StudentMarks?.Count ?? 0)</h3>
+                            <small class="text-muted">Total Records</small>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-success mb-0">@(Model.StudentMarks?.Where(m => m.Mark >= 70).Count() ?? 0)</h3>
+                            <small class="text-muted">Distinction Marks</small>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="text-danger mb-0">@(Model.StudentMarks?.Where(m => m.Mark < 50).Count() ?? 0)</h3>
+                            <small class="text-muted">Failed Marks</small>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 mt-3">
+                        <a href="#" class="btn btn-outline-info">
+                            <i class="bi bi-file-earmark-pdf me-2"></i>Generate Full Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional JavaScript for enhanced UX -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add any client-side validation or interactions here
+        const markInput = document.querySelector('input[type="number"]');
+        if (markInput) {
+            markInput.addEventListener('input', function() {
+                if (this.value > 100) this.value = 100;
+                if (this.value < 0) this.value = 0;
+            });
+        }
+    });
+</script>

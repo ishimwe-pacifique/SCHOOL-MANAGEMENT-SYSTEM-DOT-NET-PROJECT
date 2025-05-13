@@ -1,0 +1,135 @@
+﻿@page
+@model School_Management_System.Pages.AttendanceModel
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg rounded">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="bi bi-check2-square"></i> Attendance</h3>
+        </div>
+
+        <div class="card-body">
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <form method="post" asp-page-handler="LoadStudents" class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold"><i class="bi bi-building"></i> Select Class</label>
+                    <select asp-for="ClassId" asp-items="Model.ClassList" class="form-select shadow-sm" required>
+                        <option value="">-- Choose Class --</option>
+                    </select>
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                    <button type="submit" class="btn btn-outline-primary w-100">
+                        <i class="bi bi-person-lines-fill"></i> Load Students
+                    </button>
+                </div>
+                <div class="mt-3">
+                    <a href="/TeacherDashboard" class="btn btn-secondary">
+                        <i class="bi bi-house-door-fill"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                @Html.AntiForgeryToken()
+            </form>
+
+            @if (Model.Students != null && Model.Students.Count > 0)
+            {
+                <h5 class="text-muted mb-3"><i class="bi bi-people-fill"></i> Class: <span class="text-primary">@Model.ClassName</span></h5>
+
+                <form method="post" asp-page-handler="SaveAttendance">
+                    <input type="hidden" asp-for="ClassId" />
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered align-middle shadow-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th class="text-center">Present?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Students.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            <span class="fw-medium">@Model.Students[i].FullName</span>
+                                            <input type="hidden" asp-for="Students[i].StudentId" />
+                                            <input type="hidden" asp-for="Students[i].FullName" />
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-switch d-flex justify-content-center">
+                                                <input class="form-check-input" type="checkbox" asp-for="Students[i].IsPresent" title="Mark as present" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button type="submit" class="btn btn-success mt-3 w-100 shadow">
+                        <i class="bi bi-save2"></i> Save Attendance
+                    </button>
+                    @Html.AntiForgeryToken()
+                </form>
+
+
+                <div class="mt-3 d-flex justify-content-between">
+                    <a href="@Url.Page("/Attendance", new { handler = "ExportExcel" })" class="btn btn-info"><i class="bi bi-file-earmark-excel-fill"></i> Export to Excel</a>
+                    <a href="@Url.Page("/Attendance", new { handler = "ExportPdf" })" class="btn btn-danger"><i class="bi bi-file-earmark-pdf-fill"></i> Export to PDF</a>
+                </div>
+
+
+            }
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mt-3">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@modelError.ErrorMessage</p>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    /* Button Hover Animation */
+   
+
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    }
+
+    .btn:hover {
+        animation: btnHover 0.3s ease-in-out forwards;
+    }
+
+    /* Table Row Hover Animation */
+   
+
+    .table-hover tbody tr:hover {
+        animation: rowHover 0.3s ease-in-out forwards;
+    }
+
+    /* Fade In Animation */
+     
+
+    .card, .alert, .table {
+        animation: fadeIn 1s ease-in-out forwards;
+    }
+</style>
