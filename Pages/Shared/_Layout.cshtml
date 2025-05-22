@@ -1,0 +1,408 @@
+﻿@{
+    var currentPage = Context.Request.Path.Value.ToLower();
+    bool showLoginButton = !currentPage.Contains("/login") && !currentPage.Contains("/register");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - School Management System</title>
+
+    <!-- External Styles and Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/css/flag-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SchoolManagementSystem.styles.css" asp-append-version="true" />
+
+    <style>
+        :root {
+            --primary-color: #00f9ff;
+            --dark-bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --light-bg: #f2f2f2;
+            --glass-dark: rgba(255, 255, 255, 0.05);
+            --glass-light: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: #f0f0f0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: background 0.3s ease;
+        }
+
+        .landing-container {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+            .landing-container h1 {
+                font-size: 3rem;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .landing-container p {
+                font-size: 1.2rem;
+                margin-bottom: 30px;
+            }
+
+        .glass-card {
+            background: var(--glass-dark);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: inherit;
+        }
+
+            .glass-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            }
+
+        .glow-btn {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .glow-btn:hover {
+                background: var(--primary-color);
+                color: #000;
+                box-shadow: 0 0 15px var(--primary-color);
+            }
+
+        .neon-text {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+        }
+
+        /* Control Panel */
+        .control-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+            .control-btn:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 10px var(--primary-color);
+            }
+
+        /* Language Selector */
+        .language-selector {
+            position: relative;
+        }
+
+        .language-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+            min-width: 120px;
+        }
+
+            .language-menu.show {
+                display: block;
+                animation: fadeIn 0.3s ease;
+            }
+
+        .language-option {
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+            .language-option:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .language-option.active {
+                color: var(--primary-color);
+            }
+
+        /* Light Theme */
+        body.light-theme {
+            background: var(--light-bg) !important;
+            color: #222 !important;
+        }
+
+            body.light-theme .glass-card {
+                background: var(--glass-light);
+                color: #000;
+                border: 1px solid #ddd;
+            }
+
+            body.light-theme .neon-text {
+                color: #004477;
+                text-shadow: none;
+            }
+
+            body.light-theme .control-btn {
+                background: rgba(0, 0, 0, 0.05);
+                border: 1px solid #ddd;
+            }
+
+            body.light-theme .language-menu {
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+
+        .footer {
+            background: rgba(248, 249, 250, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme .footer {
+            background: rgba(248, 249, 250, 0.9);
+            border-top: 1px solid #ddd;
+        }
+
+        .login-btn {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+        }
+
+        /* Animations */
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <!-- Background Effects -->
+    <div id="particles-js"></div>
+
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <!--
+            <div class="language-selector">
+            <div class="control-btn" id="languageToggle">
+                <span class="fi fi-us"></span>
+            </div>
+            <div class="language-menu" id="languageMenu">
+                <div class="language-option active" data-lang="en">
+                    <span class="fi fi-us"></span>
+                    <span data-translate="english">English</span>
+                </div>
+                <div class="language-option" data-lang="fr">
+                    <span class="fi fi-fr"></span>
+                    <span data-translate="french">Français</span>
+                </div>
+            </div>
+        </div>
+        -->
+        <div class="control-btn" id="themeToggle">
+            <span>🌙</span>
+        </div>
+    </div>
+
+    <div class="container landing-container">
+        @if (showLoginButton)
+        {
+            <!-- Login button can be added here if needed -->
+        }
+        @RenderBody()
+    </div>
+
+    <footer class="footer text-center text-muted">
+        <div class="container">
+            <small data-translate="footer">&copy; 2025 - SchoolManagementSystem | All Rights Reserved</small>
+        </div>
+    </footer>
+
+    @* <!-- Scripts --> *@
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+    @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
+    @* <script src="~/lib/fontawesome/js/all.min.js"></script> *@
+    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
+    @* <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script> *@
+    @* <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> *@
+
+    <script>
+        // Initialize animations
+        //AOS.init({ duration: 1000, once: true });
+
+        // Initialize particle background
+        //particlesJS("particles-js", {
+            //particles: {
+                //number: { value: 80 },
+                //size: { value: 3 },
+                //color: { value: "#00f9ff" },
+                //line_linked: { enable: true, color: "#00f9ff" }
+            //},
+            //interactivity: {
+                //events: { onhover: { enable: true, mode: "repulse" } }
+            //}
+        //});
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            themeToggle.innerHTML = isLight ? '<span>☀️</span>' : '<span>🌙</span>';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+            themeToggle.innerHTML = '<span>☀️</span>';
+        }
+
+        // Language selector functionality
+        const languageToggle = document.getElementById('languageToggle');
+        const languageMenu = document.getElementById('languageMenu');
+        const languageOptions = document.querySelectorAll('.language-option');
+
+        // Toggle language menu
+        languageToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageMenu.classList.toggle('show');
+        });
+
+        // Close language menu when clicking outside
+        document.addEventListener('click', () => {
+            languageMenu.classList.remove('show');
+        });
+
+        // Language selection
+        languageOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                // Remove active class from all options
+                languageOptions.forEach(opt => opt.classList.remove('active'));
+
+                // Add active class to clicked option
+                option.classList.add('active');
+
+                const selectedLang = option.getAttribute('data-lang');
+                localStorage.setItem('language', selectedLang);
+
+                // Update toggle button flag
+                const flagClass = selectedLang === 'fr' ? 'fi-fr' : 'fi-us';
+                languageToggle.innerHTML = `<span class="fi ${flagClass}"></span>`;
+
+                // Close menu
+                languageMenu.classList.remove('show');
+
+                // Load translations
+                loadTranslations(selectedLang);
+            });
+        });
+
+        // Check for saved language preference
+        const savedLang = localStorage.getItem('language') || 'en';
+        if (savedLang === 'fr') {
+            document.querySelector('.language-option[data-lang="fr"]').classList.add('active');
+            document.querySelector('.language-option[data-lang="en"]').classList.remove('active');
+            languageToggle.innerHTML = '<span class="fi fi-fr"></span>';
+        } else {
+            document.querySelector('.language-option[data-lang="en"]').classList.add('active');
+            document.querySelector('.language-option[data-lang="fr"]').classList.remove('active');
+            languageToggle.innerHTML = '<span class="fi fi-us"></span>';
+        }
+
+        // Translation system
+        const translations = {
+            en: {
+                english: "English",
+                french: "Français",
+                footer: "© 2025 - SchoolManagementSystem | All Rights Reserved"
+            },
+            fr: {
+                english: "English",
+                french: "Français",
+                footer: "© 2025 - Système de Gestion Scolaire | Tous Droits Réservés"
+            }
+        };
+
+        function loadTranslations(lang) {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Load initial translations
+        loadTranslations(savedLang);
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

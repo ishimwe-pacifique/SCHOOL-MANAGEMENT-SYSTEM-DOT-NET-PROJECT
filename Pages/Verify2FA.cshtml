@@ -1,0 +1,432 @@
+﻿@page "/Verify2FA"
+@model School_Management_System.Pages.Verify2FAModel
+@{
+    ViewData["Title"] = "Two-Factor Authentication | School Management System";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="/css/login.css" />
+    <style>
+        :root {
+            --primary-color: #00f9ff;
+            --primary-hover: #00e1e7;
+            --secondary-color: #7c4dff;
+            --accent-color: #00f9ff;
+            --text-color: #f0f0f0;
+            --light-gray: #2c3e50;
+            --border-radius: 12px;
+            --box-shadow: 0 15px 40px rgba(0, 249, 255, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --gradient: linear-gradient(135deg, #203a43 0%, #0f2027 100%);
+            --glow-shadow: 0 0 15px rgba(0, 249, 255, 0.4);
+            --background-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --container-bg: rgba(255, 255, 255, 0.05);
+            --container-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --input-focus-bg: rgba(255, 255, 255, 0.1);
+            --subtitle-color: #a0a0a0;
+            --footer-text-color: #a0a0a0;
+        }
+
+        body.light-theme {
+            --primary-color: #008489;
+            --primary-hover: #006a6e;
+            --text-color: #333333;
+            --light-gray: #e0e0e0;
+            --background-gradient: linear-gradient(135deg, #f5f7fa, #e2e7ec, #c9d6e0);
+            --container-bg: rgba(255, 255, 255, 0.9);
+            --container-border: rgba(0, 0, 0, 0.1);
+            --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            --glow-shadow: 0 0 15px rgba(0, 132, 137, 0.4);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --input-border: rgba(0, 0, 0, 0.1);
+            --input-focus-bg: rgba(255, 255, 255, 0.95);
+            --subtitle-color: #666666;
+            --footer-text-color: #666666;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--background-gradient, linear-gradient(135deg, #0f2027, #203a43, #2c5364));
+            margin: 0;
+            padding: 0;
+            color: var(--text-color, #f0f0f0);
+            overflow-x: hidden;
+            transition: var(--transition);
+        }
+
+        .login-background {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            top: 0;
+            left: 0;
+        }
+
+
+
+        .image-panel {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(0, 249, 255, 0.1) 0%, rgba(0, 249, 255, 0.3) 100%), url('/images/register.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+
+
+        .form-panel {
+            flex: 1;
+            padding: 1rem;
+        }
+
+    }
+
+    .image-content {
+        max-width: 500px;
+        z-index: 2;
+        text-align: center;
+    }
+
+    .image-panel h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color, #00f9ff);
+        text-shadow: 0 0 10px var(--primary-color, #00f9ff);
+    }
+
+    .image-panel p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .form-panel {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        z-index: 1;
+    }
+
+    .login-container {
+        background: var(--container-bg, rgba(255, 255, 255, 0.05));
+        border-radius: var(--border-radius, 12px);
+        box-shadow: var(--box-shadow, 0 15px 40px rgba(0, 249, 255, 0.15));
+        width: 100%;
+        max-width: 450px;
+        padding: 2rem;
+        position: relative;
+        border: 1px solid var(--container-border, rgba(255, 255, 255, 0.1));
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow-shadow, 0 0 15px rgba(0, 249, 255, 0.4));
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-color, #00f9ff);
+            border-top-left-radius: var(--border-radius, 12px);
+            border-top-right-radius: var(--border-radius, 12px);
+            box-shadow: 0 0 15px var(--primary-color, #00f9ff);
+        }
+
+    h2 {
+        color: var(--primary-color, #00f9ff);
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        text-align: center;
+        text-shadow: 0 0 10px rgba(0, 249, 255, 0.4);
+    }
+
+    .subtitle {
+        color: var(--subtitle-color, #a0a0a0);
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--text-color, #f0f0f0);
+        font-size: 0.9rem;
+    }
+
+    .input-container {
+        position: relative;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        font-size: 0.95rem;
+        border-radius: var(--border-radius, 12px);
+        border: 1px solid var(--input-border, rgba(255, 255, 255, 0.1));
+        transition: var(--transition);
+        background-color: var(--input-bg, rgba(255, 255, 255, 0.05));
+        color: var(--text-color, #f0f0f0);
+        box-sizing: border-box;
+    }
+
+        input:focus, select:focus {
+            border-color: var(--primary-color, #00f9ff);
+            box-shadow: 0 0 0 3px rgba(0, 249, 255, 0.15);
+            outline: none;
+            background-color: var(--input-focus-bg, rgba(255, 255, 255, 0.1));
+        }
+
+        input::placeholder {
+            color: rgba(240, 240, 240, 0.7);
+        }
+
+    body.light-theme input::placeholder {
+        color: rgba(50, 50, 50, 0.7);
+    }
+
+    .glow-btn {
+        background: transparent;
+        border: 2px solid var(--primary-color, #00f9ff);
+        color: var(--primary-color, #00f9ff);
+        padding: 1rem;
+        font-size: 1rem;
+        border-radius: 30px;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        width: 100%;
+        font-weight: 600;
+        transition: var(--transition);
+        text-transform: uppercase;
+    }
+
+        .glow-btn:hover {
+            background: var(--primary-color, #00f9ff);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-color, #00f9ff);
+            transform: translateY(-2px);
+        }
+
+        .glow-btn[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+    .footer-text {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: var(--footer-text-color, #a0a0a0);
+    }
+
+        .footer-text a {
+            color: var(--primary-color, #00f9ff);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+            .footer-text a:hover {
+                text-shadow: 0 0 8px var(--primary-color, #00f9ff);
+            }
+
+    .alert {
+        padding: 0.85rem 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: var(--border-radius, 12px);
+        font-size: 0.9rem;
+    }
+
+    .alert-success {
+        background-color: rgba(0, 249, 255, 0.1);
+        color: var(--primary-color, #00f9ff);
+        border: 1px solid rgba(0, 249, 255, 0.3);
+    }
+
+    body.light-theme .alert-success {
+        background-color: rgba(0, 132, 137, 0.1);
+        color: var(--primary-color, #008489);
+        border: 1px solid rgba(0, 132, 137, 0.3);
+    }
+
+    .text-danger {
+        color: #ff6b6b;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2300f9ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1em;
+    }
+
+    body.light-theme select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23008489' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+
+    select option {
+        background-color: #0f2027;
+        color: var(--text-color, #f0f0f0);
+    }
+
+    body.light-theme select option {
+        background-color: #fff;
+        color: #333;
+    }
+
+    .themeToggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: transparent;
+        border: 1px solid var(--primary-color, #00f9ff);
+        color: var(--primary-color, #00f9ff);
+        padding: 8px 15px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: var(--transition);
+    }
+
+        .themeToggle:hover {
+            background: var(--primary-color, #00f9ff);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary-color, #00f9ff);
+        }
+        .verify-container {
+            background: var(--container-bg, rgba(255, 255, 255, 0.05));
+            border-radius: var(--border-radius, 12px);
+            box-shadow: var(--box-shadow, 0 15px 40px rgba(0, 249, 255, 0.15));
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            margin: 2rem auto;
+            position: relative;
+            border: 1px solid var(--container-border, rgba(255, 255, 255, 0.1));
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .verify-container:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--glow-shadow, 0 0 15px rgba(0, 249, 255, 0.4));
+            }
+
+            .verify-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 5px;
+                background: var(--primary-color, #00f9ff);
+                border-top-left-radius: var(--border-radius, 12px);
+                border-top-right-radius: var(--border-radius, 12px);
+                box-shadow: 0 0 15px var(--primary-color, #00f9ff);
+            }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        
+    </style>
+}
+
+@section Scripts {
+    <script defer src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script defer src="/js/login.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.querySelector('form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Verifying...';
+                    }
+                });
+
+                // Real-time validation for 2FA code
+                const codeInput = document.getElementById('Code');
+                if (codeInput) {
+                    codeInput.addEventListener('input', function() {
+                        const code = this.value;
+                        const codeRegex = /^\d{6}$/;
+                        if (!codeRegex.test(code)) {
+                            this.setCustomValidity('Please enter a valid 6-digit code');
+                        } else {
+                            this.setCustomValidity('');
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<button id="themeToggle" class="themeToggle" aria-label="Toggle between light and dark theme">☀️ Light Mode</button>
+<div id="particles-js"></div>
+
+<div class="login-background">
+    <div class="form-panel">
+        <div class="verify-container">
+            <h2>Two-Factor Authentication</h2>
+            <p class="subtitle">Enter the 6-digit code sent to your email</p>
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <form method="post">
+                <div class="form-group">
+                    <label for="Code">Verification Code</label>
+                    <div class="input-container">
+                        <input asp-for="Code" id="Code" class="form-control" autocomplete="off" placeholder="Enter 6-digit code" required />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="glow-btn">
+                    <i class="bi bi-shield-check me-1"></i> Verify
+                </button>
+            </form>
+
+            <div class="footer-text">
+                Didn't receive a code? <a href="/Resend2FACode">Resend code</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,821 @@
+﻿@page
+@model School_Management_System.Pages.SubjectManagementModel
+@{
+    ViewData["Title"] = "Subject Management";
+}
+
+@section Styles {
+    <style>
+        :root {
+            --admin-primary: #4f46e5;
+            --admin-secondary: #10b981;
+            --admin-danger: #ef4444;
+            --admin-warning: #f59e0b;
+            --admin-info: #3b82f6;
+            --admin-success: #10b981;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: calc(100vh - 160px);
+            margin-top: -80px;
+            padding-top: 0;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--glass-dark);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+            z-index: 10;
+            transition: var(--transition);
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.light-theme .sidebar {
+            background: var(--glass-light);
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        body.light-theme .sidebar-header {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        body.light-theme .sidebar-title {
+            color: #004477;
+            text-shadow: none;
+        }
+
+        .sidebar-logo {
+            color: var(--primary-color);
+            font-size: 1.75rem;
+        }
+
+        .nav-menu {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1rem 0;
+        }
+
+            .nav-menu::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .nav-menu::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+            }
+
+            .nav-menu::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, var(--primary-color), rgba(0, 255, 255, 0.7));
+                border-radius: 10px;
+                box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+            }
+
+                .nav-menu::-webkit-scrollbar-thumb:hover {
+                    background: linear-gradient(135deg, #00d4ff, var(--primary-color));
+                    box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+                }
+
+        .nav-menu {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme .nav-menu::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .nav-menu::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #004477, rgba(0, 68, 119, 0.7));
+        }
+
+        body.light-theme .nav-menu {
+            scrollbar-color: #004477 rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            margin: 0.25rem 0;
+        }
+
+            .nav-item:hover {
+                background: rgba(0, 255, 255, 0.1);
+                border-left-color: var(--primary-color);
+                transform: translateX(5px);
+            }
+
+            .nav-item.active {
+                background: rgba(0, 255, 255, 0.2);
+                border-left-color: var(--primary-color);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+
+        body.light-theme .nav-item:hover {
+            background: rgba(0, 68, 119, 0.1);
+        }
+
+        body.light-theme .nav-item.active {
+            background: rgba(0, 68, 119, 0.2);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #f0f0f0;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .nav-link {
+            color: #222;
+        }
+
+        .nav-item.active .nav-link,
+        .nav-item:hover .nav-link {
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        body.light-theme .nav-item.active .nav-link,
+        body.light-theme .nav-item:hover .nav-link {
+            color: #004477;
+            text-shadow: none;
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            width: 1.5rem;
+            text-align: center;
+        }
+
+        .nav-footer {
+            flex-shrink: 0;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        body.light-theme .nav-footer {
+            border-top: 1px solid #ddd;
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 320px;
+            transition: all 0.3s ease;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px var(--primary-color);
+        }
+
+        body.light-theme .main-title {
+            color: #004477;
+            text-shadow: none;
+        }
+
+        .main-subtitle {
+            color: #f0f0f0;
+            font-size: 1.2rem;
+        }
+
+        body.light-theme .main-subtitle {
+            color: #666;
+        }
+
+        .form-container {
+            background: var(--glass-dark);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.light-theme .form-container {
+            background: var(--glass-light);
+            border: 1px solid #ddd;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--admin-info), rgba(59, 130, 246, 0.5));
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        body.light-theme .form-title {
+            color: #004477;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #f0f0f0;
+        }
+
+        body.light-theme .form-label {
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .form-control {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.3);
+        }
+
+        body.light-theme .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(0, 68, 119, 0.3);
+        }
+
+        .table-container {
+            background: var(--glass-dark);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        body.light-theme .table-container {
+            background: var(--glass-light);
+            border: 1px solid #ddd;
+        }
+
+        .table-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--admin-success), rgba(16, 185, 129, 0.5));
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        body.light-theme .table-title {
+            color: #004477;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme th {
+            background: rgba(0, 68, 119, 0.1);
+            color: #004477;
+            border-bottom: 1px solid #ddd;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #f0f0f0;
+        }
+
+        body.light-theme td {
+            color: #333;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        body.light-theme tr:hover {
+            background: rgba(0, 68, 119, 0.05);
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .admin-btn {
+            background: linear-gradient(135deg, var(--primary-color), rgba(0, 255, 255, 0.7));
+            color: #000;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+            .admin-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(0, 255, 255, 0.4);
+                color: #000;
+            }
+
+        .btn-edit {
+            background: linear-gradient(135deg, var(--admin-warning), rgba(245, 158, 11, 0.7));
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, var(--admin-danger), rgba(239, 68, 68, 0.7));
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, var(--admin-success), rgba(16, 185, 129, 0.7));
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, var(--admin-info), rgba(59, 130, 246, 0.7));
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            width: auto;
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #666, rgba(102, 102, 102, 0.7));
+            color: white;
+        }
+
+            .btn-logout:hover {
+                background: linear-gradient(135deg, #ef4444, rgba(239, 68, 68, 0.7));
+                color: white;
+            }
+
+        .toggle-sidebar {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            z-index: 20;
+            background: linear-gradient(135deg, var(--primary-color), rgba(0, 255, 255, 0.7));
+            color: #000;
+            border: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Modal customization */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            background: var(--glass-dark);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #f0f0f0;
+        }
+
+        body.light-theme .modal-content {
+            background: var(--glass-light);
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.25rem 1.5rem;
+        }
+
+        body.light-theme .modal-header {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        body.light-theme .modal-title {
+            color: #004477;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+        }
+
+        body.light-theme .modal-footer {
+            border-top: 1px solid #ddd;
+        }
+
+        /* Responsive design */
+        @@media (max-width: 991px) {
+            .sidebar {
+                width: 240px;
+                transform: translateX(-100%);
+            }
+
+            .admin-content {
+                margin-left: 0;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .toggle-sidebar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .admin-content.sidebar-active {
+                margin-left: 240px;
+            }
+        }
+
+        @@media (max-width: 767px) {
+            .admin-content {
+                padding: 1.5rem;
+            }
+
+                .admin-content.sidebar-active {
+                    margin-left: 0;
+                    opacity: 0.5;
+                    pointer-events: none;
+                }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+}
+
+<div class="dashboard">
+    <button class="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">
+                <i class="fas fa-graduation-cap sidebar-logo"></i>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-item">
+                <a asp-page="/AdminDashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt nav-icon"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a asp-page="/ClassManagment" class="nav-link">
+                    <i class="fas fa-chalkboard nav-icon"></i>
+                    <span>Manage Classes</span>
+                </a>
+            </div>
+            <div class="nav-item active">
+                <a href="/SubjectManagment" class="nav-link">
+                    <i class="fas fa-book nav-icon"></i>
+                    <span>Manage Subjects</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/TeachersManagement" class="nav-link">
+                    <i class="fas fa-user-tie nav-icon"></i>
+                    <span>Manage Teachers</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/StudentManagement" class="nav-link">
+                    <i class="fas fa-user-graduate nav-icon"></i>
+                    <span>Manage Students</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/ExamMarks" class="nav-link">
+                    <i class="fas fa-clipboard-list nav-icon"></i>
+                    <span>Exam Marks</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/Reports" class="nav-link">
+                    <i class="fas fa-chart-line nav-icon"></i>
+                    <span>View Reports</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="nav-footer">
+            <form method="post" asp-page="/Logout">
+                <button type="submit" class="admin-btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <main class="admin-content">
+        <div class="content-header">
+            <h1 class="main-title">Subject Management</h1>
+            <p class="main-subtitle">Add, update, and delete subjects</p>
+            
+                <!-- 
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                -->
+            </a>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="alert alert-success">@Model.SuccessMessage</div>
+        }
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">@Model.ErrorMessage</div>
+        }
+
+        <div class="form-container">
+            <h2 class="form-title">Add New Subject</h2>
+            <form method="post" asp-page-handler="AddSubject">
+                <div class="form-group">
+                    <label asp-for="Subject.SubjectName" class="form-label">Subject Name</label>
+                    <input asp-for="Subject.SubjectName" class="form-control" placeholder="e.g., Mathematics">
+                    <span asp-validation-for="Subject.SubjectName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Subject.SubjectCode" class="form-label">Subject Code</label>
+                    <input asp-for="Subject.SubjectCode" class="form-control" placeholder="e.g., MATH101">
+                    <span asp-validation-for="Subject.SubjectCode" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Subject.ClassID" class="form-label">Class</label>
+                    <select asp-for="Subject.ClassID" class="form-control" asp-items="Model.AvailableClasses">
+                        <option value="">Select class</option>
+                    </select>
+                    <span asp-validation-for="Subject.ClassID" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="admin-btn btn-add">
+                    <i class="fas fa-plus-circle"></i> Add Subject
+                </button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h2 class="table-title">Subject List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Class</th>
+                        <th>created date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var subject in Model.Subjects)
+                    {
+                        <tr>
+                            <td>@subject.SubjectName</td>
+                            <td>@subject.SubjectCode</td>
+                            <td>@subject.ClassName</td>
+                           
+                            <td class="actions">
+                                <button class="admin-btn btn-edit btn-sm edit-btn"
+                                        data-id="@subject.SubjectID"
+                                        data-name="@subject.SubjectName"
+                                        data-code="@subject.SubjectCode"
+                                        data-classid="@subject.ClassID">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <form method="post" asp-page-handler="DeleteSubject" asp-route-subjectId="@subject.SubjectID" style="display: inline;">
+                                    <button type="submit" class="admin-btn btn-delete btn-sm" onclick="return confirm('Are you sure you want to delete this subject?');">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Subject</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" asp-page-handler="EditSubject">
+                        <div class="modal-body">
+                            <input type="hidden" id="editSubjectId" name="subjectId" />
+                            <div class="form-group">
+                                <label for="editSubjectName" class="form-label">Subject Name</label>
+                                <input type="text" class="form-control" id="editSubjectName" name="subjectName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editSubjectCode" class="form-label">Subject Code</label>
+                                <input type="text" class="form-control" id="editSubjectCode" name="subjectCode" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editClassID" class="form-label">Class</label>
+                                <select id="editClassID" name="classId" class="form-control" required>
+                                    @foreach (var cls in Model.AvailableClasses)
+                                    {
+                                        <option value="@cls.Value">@cls.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="admin-btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="admin-btn btn-success">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize edit modal
+            $('.edit-btn').click(function() {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                var code = $(this).data('code');
+                var classId = $(this).data('classid');
+
+                $('#editSubjectId').val(id);
+                $('#editSubjectName').val(name);
+                $('#editSubjectCode').val(code);
+                $('#editClassID').val(classId);
+
+                var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                editModal.show();
+            });
+
+            // Toggle sidebar
+            const toggleButton = document.querySelector('.toggle-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            const content = document.querySelector('.admin-content');
+
+            if (toggleButton) {
+                toggleButton.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    content.classList.toggle('sidebar-active');
+                });
+            }
+
+            // Active menu item
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+}

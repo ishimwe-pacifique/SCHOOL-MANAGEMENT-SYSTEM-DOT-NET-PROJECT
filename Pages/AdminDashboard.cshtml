@@ -1,0 +1,744 @@
+﻿@page
+@model School_Management_System.Pages.AdminDashboardModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+@section Styles {
+    <style>
+        :root {
+            --admin-primary: #4f46e5;
+            --admin-secondary: #10b981;
+            --admin-danger: #ef4444;
+            --admin-warning: #f59e0b;
+            --admin-info: #3b82f6;
+            --admin-success: #10b981;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: calc(100vh - 160px);
+            margin-top: -80px;
+            padding-top: 0;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--glass-dark);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+            z-index: 10;
+            transition: var(--transition);
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.light-theme .sidebar {
+            background: var(--glass-light);
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+
+        body.light-theme .sidebar-header {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        body.light-theme .sidebar-title {
+            color: #004477;
+            text-shadow: none;
+        }
+
+        .sidebar-logo {
+            color: var(--primary-color);
+            font-size: 1.75rem;
+        }
+
+        .nav-menu {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1rem 0;
+        }
+
+            /* Custom Scrollbar for Nav Menu */
+            .nav-menu::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .nav-menu::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+            }
+
+            .nav-menu::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, var(--primary-color), rgba(0, 255, 255, 0.7));
+                border-radius: 10px;
+                box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+            }
+
+                .nav-menu::-webkit-scrollbar-thumb:hover {
+                    background: linear-gradient(135deg, #00d4ff, var(--primary-color));
+                    box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+                }
+
+        /* Firefox scrollbar */
+        .nav-menu {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme .nav-menu::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .nav-menu::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #004477, rgba(0, 68, 119, 0.7));
+        }
+
+        body.light-theme .nav-menu {
+            scrollbar-color: #004477 rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            margin: 0.25rem 0;
+        }
+
+            .nav-item:hover {
+                background: rgba(0, 255, 255, 0.1);
+                border-left-color: var(--primary-color);
+                transform: translateX(5px);
+            }
+
+            .nav-item.active {
+                background: rgba(0, 255, 255, 0.2);
+                border-left-color: var(--primary-color);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            }
+
+        body.light-theme .nav-item:hover {
+            background: rgba(0, 68, 119, 0.1);
+        }
+
+        body.light-theme .nav-item.active {
+            background: rgba(0, 68, 119, 0.2);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #f0f0f0;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .nav-link {
+            color: #222;
+        }
+
+        .nav-item.active .nav-link,
+        .nav-item:hover .nav-link {
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+
+        body.light-theme .nav-item.active .nav-link,
+        body.light-theme .nav-item:hover .nav-link {
+            color: #004477;
+            text-shadow: none;
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            width: 1.5rem;
+            text-align: center;
+        }
+
+        .nav-footer {
+            flex-shrink: 0;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto; /* This pushes it to the bottom */
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        body.light-theme .nav-footer {
+            border-top: 1px solid #ddd;
+        }
+
+        .admin-content {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 320px;
+            transition: all 0.3s ease;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px var(--primary-color);
+        }
+
+        body.light-theme .main-title {
+            color: #004477;
+            text-shadow: none;
+        }
+
+        .main-subtitle {
+            color: #f0f0f0;
+            font-size: 1.2rem;
+        }
+
+        body.light-theme .main-subtitle {
+            color: #666;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-card {
+            background: var(--glass-dark);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.light-theme .admin-card {
+            background: var(--glass-light);
+            border: 1px solid #ddd;
+        }
+
+        .admin-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), rgba(0, 255, 255, 0.5));
+        }
+
+        .admin-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .admin-card.card-subjects::before {
+            background: linear-gradient(90deg, var(--admin-info), rgba(59, 130, 246, 0.5));
+        }
+
+        .admin-card.card-teachers::before {
+            background: linear-gradient(90deg, var(--admin-success), rgba(16, 185, 129, 0.5));
+        }
+
+        .admin-card.card-students::before {
+            background: linear-gradient(90deg, var(--admin-warning), rgba(245, 158, 11, 0.5));
+        }
+
+        .admin-card.card-fees::before {
+            background: linear-gradient(90deg, var(--admin-danger), rgba(239, 68, 68, 0.5));
+        }
+
+        .admin-card.card-marks::before {
+            background: linear-gradient(90deg, var(--admin-secondary), rgba(16, 185, 129, 0.5));
+        }
+
+        .admin-card.card-reports::before {
+            background: linear-gradient(90deg, var(--admin-info), rgba(59, 130, 246, 0.5));
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color), rgba(0, 255, 255, 0.7));
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .card-classes .card-icon {
+            background: linear-gradient(135deg, var(--admin-primary), rgba(79, 70, 229, 0.7));
+        }
+
+        .card-subjects .card-icon {
+            background: linear-gradient(135deg, var(--admin-info), rgba(59, 130, 246, 0.7));
+        }
+
+        .card-teachers .card-icon {
+            background: linear-gradient(135deg, var(--admin-success), rgba(16, 185, 129, 0.7));
+        }
+
+        .card-students .card-icon {
+            background: linear-gradient(135deg, var(--admin-warning), rgba(245, 158, 11, 0.7));
+        }
+
+        .card-fees .card-icon {
+            background: linear-gradient(135deg, var(--admin-danger), rgba(239, 68, 68, 0.7));
+        }
+
+        .card-marks .card-icon {
+            background: linear-gradient(135deg, var(--admin-secondary), rgba(16, 185, 129, 0.7));
+        }
+
+        .card-reports .card-icon {
+            background: linear-gradient(135deg, var(--admin-info), rgba(59, 130, 246, 0.7));
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--primary-color);
+        }
+
+        body.light-theme .card-title {
+            color: #004477;
+        }
+
+        .card-description {
+            color: #ccc;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        body.light-theme .card-description {
+            color: #666;
+        }
+
+        .admin-btn {
+            background: linear-gradient(135deg, var(--primary-color), rgba(0, 255, 255, 0.7));
+            color: #000;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+            .admin-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(0, 255, 255, 0.4);
+                color: #000;
+            }
+
+        .btn-subjects {
+            background: linear-gradient(135deg, var(--admin-info), rgba(59, 130, 246, 0.7));
+        }
+
+        .btn-teachers {
+            background: linear-gradient(135deg, var(--admin-success), rgba(16, 185, 129, 0.7));
+        }
+
+        .btn-students {
+            background: linear-gradient(135deg, var(--admin-warning), rgba(245, 158, 11, 0.7));
+        }
+
+        .btn-fees {
+            background: linear-gradient(135deg, var(--admin-danger), rgba(239, 68, 68, 0.7));
+        }
+
+        .btn-marks {
+            background: linear-gradient(135deg, var(--admin-secondary), rgba(16, 185, 129, 0.7));
+        }
+
+        .btn-reports {
+            background: linear-gradient(135deg, var(--admin-info), rgba(59, 130, 246, 0.7));
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #666, rgba(102, 102, 102, 0.7));
+            color: white;
+        }
+
+            .btn-logout:hover {
+                background: linear-gradient(135deg, #ef4444, rgba(239, 68, 68, 0.7));
+                color: white;
+            }
+
+        .toggle-sidebar {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            z-index: 20;
+            background: linear-gradient(135deg, var(--primary-color), rgba(0, 255, 255, 0.7));
+            color: #000;
+            border: none;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        @@keyframes pulse {
+            0%
+
+        {
+            box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(0, 255, 255, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 255, 255, 0);
+        }
+
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive design */
+        @@media (max-width: 991px) {
+            .sidebar
+
+        {
+            width: 240px;
+            transform: translateX(-100%);
+        }
+
+        .admin-content {
+            margin-left: 0;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .toggle-sidebar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-content.sidebar-active {
+            margin-left: 240px;
+        }
+
+        }
+
+        @@media (max-width: 767px) {
+            .cards-grid
+
+        {
+            grid-template-columns: 1fr;
+        }
+
+        .admin-content {
+            padding: 1.5rem;
+        }
+
+            .admin-content.sidebar-active {
+                margin-left: 0;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+        .main-title {
+            font-size: 2rem;
+        }
+
+        }
+    </style>
+}
+
+<div class="dashboard">
+    <button class="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">
+                <i class="fas fa-graduation-cap sidebar-logo"></i>
+                <span data-translate="admin_panel">Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-item active">
+                <a asp-page="/AdminDashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt nav-icon"></i>
+                    <span data-translate="dashboard">Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a asp-page="/ClassManagment" class="nav-link">
+                    <i class="fas fa-chalkboard nav-icon"></i>
+                    <span data-translate="manage_classes">Manage Classes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a asp-page="/SubjectManagment" class="nav-link">
+                    <i class="fas fa-book nav-icon"></i>
+                    <span data-translate="manage_subjects">Manage Subjects</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a asp-page="/TeachersManagement" class="nav-link">
+                    <i class="fas fa-user-tie nav-icon"></i>
+                    <span data-translate="manage_teachers">Manage Teachers</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a asp-page="/StudentManagement" class="nav-link">
+                    <i class="fas fa-user-graduate nav-icon"></i>
+                    <span data-translate="manage_students">Manage Students</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a asp-page="/ExamMarks" class="nav-link">
+                    <i class="fas fa-clipboard-list nav-icon"></i>
+                    <span data-translate="exam_marks">Exam Marks</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/Reports" class="nav-link">
+                    <i class="fas fa-chart-line nav-icon"></i>
+                    <span data-translate="view_reports">View Reports</span>
+                </a>
+            </div>
+           
+        </nav>
+
+        <div class="nav-footer">
+            <form method="post" asp-page="/Logout">
+                <button type="submit" class="admin-btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> <span data-translate="logout">Logout</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <main class="admin-content">
+        <div class="content-header" data-aos="fade-down">
+            <h1 class="main-title neon-text" data-translate="welcome_admin">Welcome, Admin</h1>
+            <p class="main-subtitle" data-translate="admin_subtitle">Manage your school effectively from this dashboard.</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="admin-card card-classes" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-chalkboard"></i></div>
+                    <div>
+                        <div class="card-title" data-translate="classes">Classes</div>
+                        <div class="card-description" data-translate="classes_desc">Manage all class levels</div>
+                    </div>
+                </div>
+                <a asp-page="/ClassManagment" class="admin-btn">
+                    <span data-translate="view_classes">View Classes</span>
+                </a>
+            </div>
+
+            <div class="admin-card card-subjects" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-book"></i></div>
+                    <div>
+                        <div class="card-title" data-translate="subjects">Subjects</div>
+                        <div class="card-description" data-translate="subjects_desc">Assign and manage subjects</div>
+                    </div>
+                </div>
+                <a asp-page="/SubjectManagment" class="admin-btn btn-subjects">
+                    <span data-translate="view_subjects">View Subjects</span>
+                </a>
+            </div>
+
+            <div class="admin-card card-teachers" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+                    <div>
+                        <div class="card-title" data-translate="teachers">Teachers</div>
+                        <div class="card-description" data-translate="teachers_desc">Manage teaching staff</div>
+                    </div>
+                </div>
+                <a asp-page="/TeachersManagement" class="admin-btn btn-teachers">
+                    <span data-translate="view_teachers">View Teachers</span>
+                </a>
+            </div>
+
+            <div class="admin-card card-students" data-aos="fade-up" data-aos-delay="400">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div>
+                        <div class="card-title" data-translate="students">Students</div>
+                        <div class="card-description" data-translate="students_desc">Handle student data</div>
+                    </div>
+                </div>
+                <a asp-page="/StudentManagement" class="admin-btn btn-students">
+                    <span data-translate="view_students">View Students</span>
+                </a>
+            </div>
+
+            <div class="admin-card card-marks" data-aos="fade-up" data-aos-delay="500">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <div>
+                        <div class="card-title" data-translate="marks">Marks</div>
+                        <div class="card-description" data-translate="marks_desc">Input and view student marks</div>
+                    </div>
+                </div>
+                <a asp-page="/ExamMarks" class="admin-btn btn-marks">
+                    <span data-translate="view_marks">View Marks</span>
+                </a>
+            </div>
+
+            <div class="admin-card card-reports" data-aos="fade-up" data-aos-delay="600">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <div>
+                        <div class="card-title" data-translate="reports">Reports</div>
+                        <div class="card-description" data-translate="reports_desc">Analyze school reports</div>
+                    </div>
+                </div>
+                <a href="/Reports" class="admin-btn btn-reports">
+                    <span data-translate="view_reports">View Reports</span>
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for layout scripts to load
+            setTimeout(function() {
+                // Add staggered animation to cards
+                const cards = document.querySelectorAll('.admin-card');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                });
+
+                // Toggle sidebar
+                const toggleButton = document.querySelector('.toggle-sidebar');
+                const sidebar = document.querySelector('.sidebar');
+                const content = document.querySelector('.admin-content');
+
+                if (toggleButton) {
+                    toggleButton.addEventListener('click', function() {
+                        sidebar.classList.toggle('active');
+                        content.classList.toggle('sidebar-active');
+                    });
+                }
+
+                // Active menu item
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        navItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+
+                // Add hover effect to cards
+                cards.forEach(card => {
+                    card.addEventListener('mouseover', function() {
+                        this.classList.add('pulse');
+                    });
+
+                    card.addEventListener('mouseout', function() {
+                        this.classList.remove('pulse');
+                    });
+                });
+
+                // Load translations if available
+                const savedLang = localStorage.getItem('language') || 'en';
+                if (typeof window.loadTranslations === 'function') {
+                    window.loadTranslations(savedLang);
+                }
+            }, 100);
+        });
+    </script>
+}
