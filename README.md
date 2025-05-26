@@ -61,7 +61,7 @@ The School Management System provides a complete solution for managing primary s
 1. *Clone the repository*
    bash
    git clone https://github.com/ishimwe-pacifique/SCHOOL-MANAGEMENT-SYSTEM-DOT-NET-PROJECT.git 
-  cd school-management-system
+   cd school-management-system
    
 
 2. *Open in Visual Studio*
